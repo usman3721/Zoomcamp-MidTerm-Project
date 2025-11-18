@@ -17,7 +17,4 @@ def predict_languages(data: Texts):
     results = predict(data.texts, model, vectorizer, label_encoder)
     return {"predictions": results.tolist()}
 
-# -----------------------------
-# Run with:
-# uvicorn serve:app --reload
-# -----------------------------
+
