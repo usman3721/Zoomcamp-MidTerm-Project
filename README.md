@@ -49,37 +49,27 @@ We've built a multi-class classification system that:
 
 ## Project Structure
 
+# Language Detector - Project Restructuring Guide
+
+## Current Structure (Based on your image)
 ```
 language-detector/
-│
-├── data/
-│   ├── raw/                    # Original dataset
-│   ├── processed/              # Cleaned and split data
-│   └── Language_Detection.csv  # Main dataset
-│
-├── notebooks/
-│   └── main.ipynb             # EDA and model training notebook
-│
-├── src/
-│   ├── __init__.py
-│   ├── train.py               # Model training script
-│   ├── predict.py             # Prediction script
-│   └── serve.py               # Flask API service
-│
+├── __pycache__/
+├── .venv/
+├── Data/
 ├── models/
-│   ├── best_model.pkl         # Saved best model
-│   └── vectorizer.pkl         # Saved TF-IDF vectorizer
-│
-├── tests/
-│   └── test_model.py          # Unit tests
-│
-├── docker/
-│   ├── Dockerfile             # Docker configuration
-│   └── docker-compose.yml     # Docker compose file
-│
-├── requirements.txt           # Python dependencies
-├── README.md                  # This file
-└── .gitignore                # Git ignore file
+├── notebooks/
+├── .gitignore
+├── .python-version
+├── docker-compose.yml
+├── Dockerfile
+├── predict.py
+├── pyproject.toml
+├── README.md
+├── serve.py
+├── test.py
+├── train.py
+└── uv.lock
 ```
 
 ## Methodology
@@ -105,9 +95,7 @@ Trained and compared multiple models:
 
 **Evaluation Metrics:**
 - Accuracy
-- Precision, Recall, F1-Score (per language)
-- Confusion Matrix
-- Cross-validation scores
+
 
 ### 4. Model Selection
 Selected best model based on:
@@ -192,17 +180,8 @@ curl -X POST http://localhost:5000/predict \
 }
 ```
 
-### Endpoint: `/health`
 
-**Method**: GET
 
-**Response**:
-```json
-{
-  "status": "healthy",
-  "model_loaded": true
-}
-```
 
 ## Model Performance
 
@@ -244,33 +223,15 @@ results = detector.predict_batch(texts)
 ```python
 import requests
 
-url = "http://localhost:5000/predict"
+url = "http://localhost:9696/predict"
 data = {"text": "Das ist ein deutscher Satz."}
 
 response = requests.post(url, json=data)
 print(response.json())
 ```
 
-## Cloud Deployment (Optional)
 
-### AWS Deployment
-```bash
-# Build and push to ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
-docker tag language-detector:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/language-detector:latest
-docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/language-detector:latest
 
-# Deploy to ECS/Fargate
-aws ecs update-service --cluster language-detector-cluster --service language-detector-service --force-new-deployment
-```
-
-### Heroku Deployment
-```bash
-heroku container:login
-heroku create language-detector-app
-heroku container:push web -a language-detector-app
-heroku container:release web -a language-detector-app
-```
 
 ## Testing
 
@@ -327,4 +288,4 @@ This project is licensed under the MIT License.
 
 For questions or feedback:
 - GitHub Issues: https://github.com/usman3721/Language-detector/issues
-- Email: your.email@example.com
+- Email: olamidehassan007@gmail.com
